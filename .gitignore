@@ -27,3 +27,9 @@ models/*.pth
 # OS
 .DS_Store
 Thumbs.db
+
+# MLflow experiments
+mlflow_runs/
+
+# Logs
+logs/
