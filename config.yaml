@@ -1,0 +1,80 @@
+project:
+  name: "EcoLens — Intelligent Waste Classification System"
+  version: "1.0.0"
+  description: "Production-grade waste classification using EfficientNet-B3 transfer learning"
+
+dataset:
+  name: "Garbage Classification"
+  source: "kaggle"
+  kaggle_path: "asdasdasasdas/garbage-classification"
+  classes:
+    - cardboard
+    - glass
+    - metal
+    - paper
+    - plastic
+    - trash
+  num_classes: 6
+  train_split: 0.75
+  val_split: 0.15
+  test_split: 0.10
+  image_size: 224
+  channels: 3
+
+augmentation:
+  random_horizontal_flip: true
+  random_rotation: 15
+  color_jitter:
+    brightness: 0.3
+    contrast: 0.3
+    saturation: 0.3
+    hue: 0.1
+  normalize:
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+
+model:
+  architecture: "efficientnet_b3"
+  pretrained: true
+  freeze_backbone_epochs: 3
+  unfreeze_epoch: 3
+  dropout_rate: 0.4
+
+training:
+  epochs: 30
+  batch_size: 16
+  num_workers: 0
+  seed: 42
+  mixed_precision: false
+  gradient_clip: 1.0
+
+optimizer:
+  name: "AdamW"
+  lr_head: 1.0e-3
+  lr_backbone: 1.0e-4
+  weight_decay: 1.0e-4
+
+scheduler:
+  name: "CosineAnnealingLR"
+  T_max: 30
+  eta_min: 1.0e-6
+  warmup_epochs: 2
+
+early_stopping:
+  patience: 7
+  monitor: "val_accuracy"
+  mode: "max"
+
+paths:
+  data_dir: "data/"
+  raw_dir: "data/raw/"
+  processed_dir: "data/processed/"
+  models_dir: "models/"
+  best_model: "models/best_model.pth"
+  logs_dir: "logs/"
+  reports_dir: "reports/"
+  mlflow_uri: "mlflow_runs/"
+
+inference:
+  confidence_threshold: 0.50
+  top_k: 3

@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+# Virtual Environment
+venv/
+env/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data (IGNORE ALL DATA)
+data/
+
+# Models
+models/*.pth
+*.pth
+*.pt
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

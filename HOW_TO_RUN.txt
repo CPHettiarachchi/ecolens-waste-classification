@@ -1,0 +1,101 @@
+============================================================
+  EcoLens - HOW TO RUN (Step by Step)
+============================================================
+
+PREREQUISITES
+-------------
+- Python 3.10 installed
+- ~2 GB free disk space
+- Dataset downloaded from Kaggle (see Step 1)
+
+------------------------------------------------------------
+STEP 1 — Download Dataset (do this FIRST)
+------------------------------------------------------------
+1. Go to: https://www.kaggle.com/datasets/asdasdasasdas/garbage-classification
+2. Click Download -> garbage-classification.zip (~65 MB)
+3. Extract the zip
+4. Copy these 6 folders into  data\raw\  :
+     cardboard\
+     glass\
+     metal\
+     paper\
+     plastic\
+     trash\
+
+   Final structure should be:
+     EcoLens\data\raw\cardboard\  <- jpg images inside
+     EcoLens\data\raw\glass\
+     EcoLens\data\raw\metal\
+     EcoLens\data\raw\paper\
+     EcoLens\data\raw\plastic\
+     EcoLens\data\raw\trash\
+
+------------------------------------------------------------
+STEP 2 — Open PowerShell and go to project folder
+------------------------------------------------------------
+cd D:\clp\EcoLens
+
+------------------------------------------------------------
+STEP 3 — Create virtual environment
+------------------------------------------------------------
+python -m venv venv
+venv\Scripts\activate
+
+------------------------------------------------------------
+STEP 4 — Install dependencies
+------------------------------------------------------------
+pip install torch==2.2.0 torchvision==0.17.0
+pip install timm==0.9.12 numpy==1.26.4 scikit-learn==1.4.0 Pillow==10.2.0
+pip install pandas==2.2.0 opencv-python==4.9.0.80 albumentations==1.3.1
+pip install matplotlib==3.8.2 seaborn==0.13.2 plotly==5.18.0
+pip install tqdm==4.66.2 pyyaml==6.0.1 python-dotenv==1.0.1
+pip install streamlit==1.31.0 mlflow==2.10.0
+pip install grad-cam==1.5.4 pytest==8.0.2
+
+------------------------------------------------------------
+STEP 5 — Prepare dataset
+------------------------------------------------------------
+python src/data_preparation.py
+
+Expected: "Data preparation complete." with train/val/test counts
+
+------------------------------------------------------------
+STEP 6 — Train the model
+------------------------------------------------------------
+python src/train.py
+
+NOTE: CPU training takes 2-4 hours for 30 epochs.
+      To test quickly, open config.yaml and set epochs: 3
+      Once confirmed working, set back to 30.
+
+------------------------------------------------------------
+STEP 7 — Evaluate the model
+------------------------------------------------------------
+python src/evaluate.py
+
+Generates confusion matrix + charts in reports/ folder
+
+------------------------------------------------------------
+STEP 8 — Launch Web App
+------------------------------------------------------------
+python -m streamlit run app/app.py
+
+Open browser at: http://localhost:8501
+
+------------------------------------------------------------
+TROUBLESHOOTING
+------------------------------------------------------------
+Error: ModuleNotFoundError
+  -> Make sure you are in D:\clp\EcoLens when running commands
+
+Error: batch_size / memory crash
+  -> Open config.yaml, change batch_size: 16 to batch_size: 8
+
+Error: num_workers multiprocessing crash
+  -> Open config.yaml, confirm num_workers: 0
+
+Error: model not found in web app
+  -> Make sure training completed and models\best_model.pth exists
+  -> Run: python src/train.py first
+
+============================================================
