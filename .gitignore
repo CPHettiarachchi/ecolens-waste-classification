@@ -33,3 +33,6 @@ mlflow_runs/
 
 # Logs
 logs/
+
+# VsCode settings
+.vscode/

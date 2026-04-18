@@ -6,7 +6,7 @@ project:
 dataset:
   name: "Garbage Classification"
   source: "kaggle"
-  kaggle_path: "asdasdasasdas/garbage-classification"
+  kaggle_path: "mostafaabla/garbage-classification"
   classes:
     - cardboard
     - glass
